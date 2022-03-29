@@ -41,6 +41,10 @@ def main() -> None:
     src_img = cv2.imread(in_img)
     if src_img is None:
         return
+    height, width = src_img.shape[:2]
+    if (height != 480) or (width != 640):
+        src_img = cv2.resize(src_img, (640, 480))
+        height, width = src_img.shape[:2]
 
     gray = cv2.cvtColor(src_img, cv2.COLOR_BGR2GRAY)
     gaus = cv2.GaussianBlur(gray, (5, 5), 3)
@@ -48,12 +52,11 @@ def main() -> None:
         gaus, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 41, 2
     )
 
-    height, width = src_img.shape[:2]
-    max_area = math.ceil((width * height) / 2)
-    min_area = math.ceil((width * height) / 100)
     contours, hierarchy = cv2.findContours(
         bin_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE
     )
+    max_area = math.ceil((width * height) / 2)
+    min_area = math.ceil((width * height) / 100)
     coin_contours = find_circle_contours(contours, (min_area, max_area))
 
     dst_img = src_img.copy()
