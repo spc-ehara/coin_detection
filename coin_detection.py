@@ -160,6 +160,12 @@ def determine_coin_type(coins_color, hole_features):
     return coin_type
 
 
+def gamma_correction(src_img, gamma):
+    table = (np.arange(256) / 255) ** gamma * 255
+    table = np.clip(table, 0, 255).astype(np.uint8)
+    return cv2.LUT(src_img, table)
+
+
 def concat_tile(im_list_2d):
     return cv2.vconcat([cv2.hconcat(im_list_h) for im_list_h in im_list_2d])
 
@@ -202,6 +208,8 @@ def main() -> None:
     )
     coin_contours = find_circle_contours(contours, (min_area, max_area))
     hole_contours = find_hole_contours(contours, hierarchy)
+
+    # src_img = gamma_correction(src_img.copy(), 1.1)
     (coins_color, hole_features, coins_area) = extract_feature(
         src_img, coin_contours, hole_contours
     )

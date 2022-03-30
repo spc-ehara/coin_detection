@@ -56,11 +56,21 @@ def main() -> None:
             gaus, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 41, 2
         )
 
+        max_area = math.ceil((width * height) / 2)
+        min_area = math.ceil((width * height) / 100)
+        bin_img = cd.filter_object(
+            bin_img, (0, (width / 1.5)), (0, (height / 1.5)), (min_area, max_area)
+        )
+        bin_img = cv2.morphologyEx(
+            bin_img,
+            cv2.MORPH_CLOSE,
+            cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3)),
+            iterations=4,
+        )
+
         contours, hierarchy = cv2.findContours(
             bin_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE
         )
-        max_area = math.ceil((width * height) / 2)
-        min_area = math.ceil((width * height) / 100)
         coin_contours = cd.find_circle_contours(contours, (min_area, max_area))
 
         dst_img = src_img.copy()
