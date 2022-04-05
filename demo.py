@@ -86,6 +86,61 @@ def main() -> None:
         bin_img_out = cv2.cvtColor(bin_img, cv2.COLOR_GRAY2BGR)
         out_line_out = cv2.cvtColor(out_line, cv2.COLOR_GRAY2BGR)
 
+        src_img = cv2.putText(
+            src_img,
+            "src_img",
+            (250, 50),
+            cv2.FONT_HERSHEY_COMPLEX,
+            1,
+            (0, 255, 0),
+            2,
+        )
+        gray_out = cv2.putText(
+            gray_out,
+            "gray",
+            (250, 50),
+            cv2.FONT_HERSHEY_COMPLEX,
+            1,
+            (0, 255, 0),
+            2,
+        )
+        gaus_out = cv2.putText(
+            gaus_out,
+            "gaus",
+            (250, 50),
+            cv2.FONT_HERSHEY_COMPLEX,
+            1,
+            (0, 255, 0),
+            2,
+        )
+        bin_img_out = cv2.putText(
+            bin_img_out,
+            "bin_img",
+            (250, 50),
+            cv2.FONT_HERSHEY_COMPLEX,
+            1,
+            (0, 255, 0),
+            2,
+        )
+        out_line_out = cv2.putText(
+            out_line_out,
+            "out_line",
+            (250, 50),
+            cv2.FONT_HERSHEY_COMPLEX,
+            1,
+            (0, 255, 0),
+            2,
+        )
+        dst_img = cv2.putText(
+            dst_img,
+            "dst_img",
+            (250, 50),
+            cv2.FONT_HERSHEY_COMPLEX,
+            1,
+            (0, 255, 0),
+            2,
+        )
+
         cv2.namedWindow("output", cv2.WINDOW_NORMAL)
         out_img = cd.concat_tile(
             [
